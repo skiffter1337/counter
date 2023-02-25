@@ -1,0 +1,36 @@
+.settings {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+
+    width: 300px;
+    height: 100px;
+
+
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.setButton {
+    margin-left: 130px;
+    width: 20px;
+
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.maxValueInput {
+    width: 80px;
+    height: 10px;
+    margin-left: 130px;
+}
+
+.minValueInput {
+    width: 80px;
+    height: 10px;
+    margin-left: 130px;
+}
