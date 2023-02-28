@@ -28,12 +28,25 @@
     margin-left: 100px;
 }
 
-.countNoError {
-    color: black;
-}
+
 .countError {
     color: hotpink;
 }
+
+.errorMessage {
+    color: hotpink;
+}
+
+.maxInputErr {
+    border: hotpink;
+    background-color: hotpink;
+}
+.minInputErr {
+    border: hotpink;
+    background-color: hotpink;
+}
+
+
 .buttons {
     display: flex;
     justify-content: space-around;

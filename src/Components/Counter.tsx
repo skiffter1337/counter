@@ -49,9 +49,7 @@ export const Counter = () => {
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        if (minInput < 0 || maxInput <= minInput) {
-            setError(true)
-        } else setError(false)
+        minInput < 0 || maxInput <= minInput ? setError(true) : setError(false)
     }, [minInput, maxInput])
 
     const errorMessage = error && "Incorrect value!"
@@ -75,15 +73,23 @@ export const Counter = () => {
         <div className={s.counter}>
             <div className={s.settings}>
                 Max:
-                <input value={maxInput} onChange={onChangeMaxInputHandler} className={s.inputs} type={"number"}/>
+                <input
+                    value={maxInput}
+                    onChange={onChangeMaxInputHandler}
+                    className={`${s.inputs} ${maxInput <= minInput ? s.maxInputErr : ""}`}
+                    type={"number"}/>
                 Min:
-                <input value={minInput} onChange={onChangeMinInputHandler} className={s.inputs} type={"number"}/>
+                <input
+                    value={minInput}
+                    onChange={onChangeMinInputHandler}
+                    className={`${s.inputs} ${minInput < 0 || minInput === maxInput ? s.minInputErr : ""}`}
+                    type={"number"}/>
                 <div className={s.setButton}><SuperButton callback={setMinMaxValue}
                                                           disabled={inputsDisableConditions}>set</SuperButton></div>
             </div>
             <div className={s.counterScreen}>
                 <div className={s.count}>
-                    <div className={startValue >= maxValue ? s.countError : s.countNoError}>
+                    <div className={`${startValue >= maxValue ? s.countError : ""} ${errorMessage ? s.errorMessage : ""}`}>
                         <span>{errorMessage ? errorMessage : enterMessage ? enterMessage : startValue}</span>
                     </div>
                 </div>
