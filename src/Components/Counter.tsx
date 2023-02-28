@@ -9,9 +9,9 @@ export const Counter = () => {
     let minCounterValue = 0
     let maxCounterValue = 5
 
-    const [startValue, setStartValue] = useState<number>(startCounterValue)
-    const [minValue, setMinValue] = useState<number>(minCounterValue)
-    const [maxValue, setMaxValue] = useState<number>(maxCounterValue)
+    const [startValue, setStartValue] = useState(startCounterValue)
+    const [minValue, setMinValue] = useState(minCounterValue)
+    const [maxValue, setMaxValue] = useState(maxCounterValue)
 
     const [minInput, setMinInput] = useState(minValue)
     const [maxInput, setMaxInput] = useState(maxValue)
@@ -21,10 +21,29 @@ export const Counter = () => {
         let valueAsString = localStorage.getItem("counterValue")
         if (valueAsString) {
             let parsedValue = JSON.parse(valueAsString)
-            setMinValue(parsedValue)
+            setStartValue(parsedValue)
         }
     }, [])
-    useEffect(() => localStorage.setItem("counterValue", JSON.stringify(minValue)), [minValue])
+    useEffect(() => localStorage.setItem("counterValue", JSON.stringify(startValue)), [startValue])
+
+    useEffect(() => {
+        let valueAsString = localStorage.getItem("minInputValue")
+        if (valueAsString) {
+            let parsedValue = JSON.parse(valueAsString)
+            setMinInput(parsedValue)
+        }
+    }, [])
+    useEffect(() => localStorage.setItem("minInputValue", JSON.stringify(minInput)), [minInput])
+
+
+    useEffect(()=> {
+      let valueAsString = localStorage.getItem("maxInputValue")
+        if(valueAsString) {
+            let parsedValue = JSON.parse(valueAsString)
+            setMaxInput(parsedValue)
+        }
+    }, [])
+    useEffect(()=> localStorage.setItem("maxInputValue", JSON.stringify(maxInput)), [maxInput])
 
 
     const setMinMaxValue = () => {
@@ -89,7 +108,8 @@ export const Counter = () => {
             </div>
             <div className={s.counterScreen}>
                 <div className={s.count}>
-                    <div className={`${startValue >= maxValue ? s.countError : ""} ${errorMessage ? s.errorMessage : ""}`}>
+                    <div
+                        className={`${startValue >= maxValue ? s.countError : ""} ${errorMessage ? s.errorMessage : ""}`}>
                         <span>{errorMessage ? errorMessage : enterMessage ? enterMessage : startValue}</span>
                     </div>
                 </div>
