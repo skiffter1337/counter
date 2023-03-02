@@ -1,4 +1,5 @@
 import React from 'react';
+import s from  "./SuperButton.module.css"
 
 type SuperButtonType = {
     callback: ()=>void
@@ -13,7 +14,7 @@ export const SuperButton: React.FC<SuperButtonType> = (props) => {
     const onClickCallback = () => callback()
 
 
-    return <button onClick={onClickCallback} disabled={disabled}>{children}</button>
+    return <button onClick={onClickCallback} disabled={disabled} className={s.button}>{children}</button>
 
 };
 

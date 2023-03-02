@@ -1,80 +1,128 @@
 .counter {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    justify-content: center;
 
-    margin-top: 100px;
-    margin-left: 100px;
+    margin-top: 200px;
+
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
 }
 
 .counterScreen {
-    display: flex;
-    flex-direction: column;
-
     width: 300px;
-    height: 100px;
+    height: 200px;
 
-
-    border: 2px solid black;
+    border: 3px solid #dec1ff;
     border-radius: 5px;
 }
 
 .count {
-    text-align: center;
-    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 8px;
+    margin-top: 10px;
+
+    width: 280px;
+    height: 100px;
+
+    border: 2px solid #dec1ff;
     border-radius: 5px;
-    margin-top: 20px;
-    margin-right: 100px;
-    margin-left: 100px;
+
+}
+
+.countValue {
+    font-size: 50px;
 }
 
 
-.countError {
-    color: hotpink;
+.counterButtons {
+    display: flex;
+   justify-content: center;
+    align-items: center;
+    margin-left: 8px;
+    margin-top: 20px;
+
+    width: 280px;
+    height: 50px;
+
+    border: 2px solid #dec1ff;
+    border-radius: 5px;
+}
+.incButton {
+
+    display: inline-block;
+}
+
+.resetButton {
+    margin-left: 80px;
+    display: inline-block;
+
+}
+
+
+.settingsOnChangeMessage {
+
+    color: #ea526f;
 }
 
 .errorMessage {
-    color: hotpink;
-}
-
-.maxInputErr {
-    border: hotpink;
-    background-color: hotpink;
-}
-.minInputErr {
-    border: hotpink;
-    background-color: hotpink;
+    color: #ea526f;
 }
 
 
-.buttons {
+.settingsScreen {
     display: flex;
-    justify-content: space-around;
-    margin: 20px 100px;
-}
 
-.settings {
 
     width: 300px;
-    height: 100px;
+    height: 200px;
 
-
-    border: 2px solid black;
+    border: 3px solid #dec1ff;
     border-radius: 5px;
 }
 
-.setButton {
-    margin-left: 130px;
-    width: 20px;
+.mixMaxValues {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 
+    margin-left: 20px;
+    margin-top: 10px;
+
+    width: 280px;
+    height: 100px;
+
+    border: 2px solid #dec1ff;
+    border-radius: 5px;
 }
 
 .inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80px;
-    height: 10px;
 
+    border: 2px solid #dec1ff;
 
 }
+
+.InputErr {
+    border: 2px solid #dec1ff;
+    background-color: #ea526f;
+    border-radius: 2px;
+
+}
+
+
+.setButton {
+
+
+    border: 3px solid lime;
+
+}
+
