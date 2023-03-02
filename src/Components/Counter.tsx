@@ -63,7 +63,7 @@ export const Counter = () => {
     const enterMessage = enterValueMessage && "enter values and press 'set'"
     const errorMessage = error && "Incorrect value!"
     const maxInputClasses = `${s.inputs} ${s.minInput} ${maxInput <= minInput ? s.InputErr : ""}`
-    const minInputClasses = `${s.inputs} ${s.maxInput} ${minInput < 0 || minInput === maxInput ? s.InputErr : ""}`
+    const minInputClasses = `${s.inputs} ${minInput < 0 || minInput === maxInput ? s.InputErr : ""}`
     const countClasses = `${startValue >= maxValue ? s.settingsOnChangeMessage : ""} ${errorMessage ? s.errorMessage : ""}`
     const countValueClasses = `${!errorMessage && !enterMessage ? s.countValue : ""}`
 
@@ -81,18 +81,22 @@ export const Counter = () => {
         <div className={s.counter}>
             <div className={s.settingsScreen}>
                 <div className={s.mixMaxValues}>
-                    <span>Max value:</span>
-                    <input
-                        value={maxInput}
-                        onChange={onChangeMaxInputHandler}
-                        className={maxInputClasses}
-                        type={"number"}/>
-                    <span>Min value:</span>
-                    <input
-                        value={minInput}
-                        onChange={onChangeMinInputHandler}
-                        className={minInputClasses}
-                        type={"number"}/>
+                    <div className={s.maxInput}>
+                        <span>Max value:</span>
+                        <input
+                            value={maxInput}
+                            onChange={onChangeMaxInputHandler}
+                            className={maxInputClasses}
+                            type={"number"}/>
+                    </div>
+                    <div className={s.minInput}>
+                        <span>Min value:</span>
+                        <input
+                            value={minInput}
+                            onChange={onChangeMinInputHandler}
+                            className={minInputClasses}
+                            type={"number"}/>
+                    </div>
                 </div>
                 <div className={s.setButton}>
                     <SuperButton
@@ -107,7 +111,8 @@ export const Counter = () => {
                 <div className={s.count}>
                     <div
                         className={countClasses}>
-                        <span className={countValueClasses}>{errorMessage ? errorMessage : enterMessage ? enterMessage : startValue}</span>
+                        <span
+                            className={countValueClasses}>{errorMessage ? errorMessage : enterMessage ? enterMessage : startValue}</span>
                     </div>
                 </div>
                 <div className={s.counterButtons}>
