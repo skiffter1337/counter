@@ -103,25 +103,29 @@
 }
 
 .inputs {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 15px;
+    text-align: right;
 
+    margin-left: 30px;
     width: 80px;
     border: 2px solid #dec1ff;
     border-radius: 5px;
 
+    height: 15px;
 }
 
-.maxInput {
 
-}
-
-.minInput {
-
+.inputValue {
+    padding-left: 20px;
 }
 
 .InputErr {
     border: 2px solid #dec1ff;
     background-color: #ea526f;
     border-radius: 5px;
+
 
 }
 

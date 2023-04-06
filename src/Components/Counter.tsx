@@ -66,6 +66,7 @@ export const Counter = () => {
     const minInputClasses = `${s.inputs} ${minInput < 0 || minInput === maxInput ? s.InputErr : ""}`
     const countClasses = `${startValue >= maxValue ? s.settingsOnChangeMessage : ""} ${errorMessage ? s.errorMessage : ""}`
     const countValueClasses = `${!errorMessage && !enterMessage ? s.countValue : ""}`
+    const countValueVariants = errorMessage ? errorMessage : enterMessage ? enterMessage : startValue
 
     const setMinMaxValue = () => {
         setStartValue(minInput)
@@ -82,7 +83,7 @@ export const Counter = () => {
             <div className={s.settingsScreen}>
                 <div className={s.mixMaxValues}>
                     <div className={s.maxInput}>
-                        <span>Max value:</span>
+                        <span className={s.inputValue}>Max value:</span>
                         <input
                             value={maxInput}
                             onChange={onChangeMaxInputHandler}
@@ -90,7 +91,7 @@ export const Counter = () => {
                             type={"number"}/>
                     </div>
                     <div className={s.minInput}>
-                        <span>Min value:</span>
+                        <span className={s.inputValue}>Min value: </span>
                         <input
                             value={minInput}
                             onChange={onChangeMinInputHandler}
@@ -112,7 +113,7 @@ export const Counter = () => {
                     <div
                         className={countClasses}>
                         <span
-                            className={countValueClasses}>{errorMessage ? errorMessage : enterMessage ? enterMessage : startValue}</span>
+                            className={countValueClasses}>{countValueVariants}</span>
                     </div>
                 </div>
                 <div className={s.counterButtons}>
