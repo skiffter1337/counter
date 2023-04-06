@@ -4,35 +4,39 @@ import {SuperButton} from "./SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../Redux/store/store";
 import {
-    changeMaxInputAC,
-    changeMinInputAC,
+    changeMaxInputAC, changeMaxValueAC,
+    changeMinInputAC, changeStartValueAC,
     disableButtonAC,
     incrementAC,
-    resetAC,
+    resetAC, showMessageAC,
     StateType
 } from "../Redux/reducers/counterReducer";
 
 
-const StartCounterValue = 0
-const MinCounterValue = 0
-const MaxCounterValue = 5
+// const StartCounterValue = 0
+// const MinCounterValue = 0
+// const MaxCounterValue = 5
 
 export const Counter = () => {
 
     const dispatch = useDispatch()
     const counterValues = useSelector<AppStoreType, StateType>((state) => state.counter)
 
-    const [startValue, setStartValue] = useState(StartCounterValue)
-    const [minValue, setMinValue] = useState(MinCounterValue)
-    const [maxValue, setMaxValue] = useState(MaxCounterValue)
-
-    const [minInput, setMinInput] = useState(minValue)
-    const [maxInput, setMaxInput] = useState(maxValue)
-
+    // const [startValue, setStartValue] = useState(StartCounterValue)
+    // const [minValue, setMinValue] = useState(MinCounterValue)
+    // const [maxValue, setMaxValue] = useState(MaxCounterValue)
+    //
+    // const [minInput, setMinInput] = useState(minValue)
+    // const [maxInput, setMaxInput] = useState(maxValue)
+    //
     const [error, setError] = useState(false)
+    //
+    // const [onChangeBtnDisable, setOnChangeBtnDisable] = useState(false)
+    // const [enterValueMessage, setEnterValueMessage] = useState(false)
 
-    const [onChangeBtnDisable, setOnChangeBtnDisable] = useState(false)
-    const [enterValueMessage, setEnterValueMessage] = useState(false)
+    // old state
+
+
 
     // useEffect(() => {
     //     let valueAsString = localStorage.getItem("counterValue")
@@ -63,37 +67,40 @@ export const Counter = () => {
 
     useEffect(() => {
         if (inputsOnchangeParameters) {
-            dispatch(disableButtonAC())
-            setEnterValueMessage(true)
+            dispatch(disableButtonAC(true))
+            dispatch(showMessageAC(true))
         } else {
-            setOnChangeBtnDisable(false)
-            setEnterValueMessage(false)
+            dispatch(disableButtonAC(false))
+            dispatch(showMessageAC(false))
         }
-    }, [minInput, maxInput])
+    }, [counterValues.minInput, counterValues.maxInput])
 
-    useEffect(() => inputsDisableConditions ? setError(true) : setError(false), [minInput, maxInput])
+    useEffect(() => inputsDisableConditions ? setError(true) : setError(false), [counterValues.minInput, counterValues.maxInput])
 
     const inputsOnchangeParameters = counterValues.minInput !== counterValues.minValue || counterValues.maxInput !== counterValues.maxValue;
-    const inputsDisableConditions = minInput < 0 || maxInput <= minInput
+    const inputsDisableConditions = counterValues.minInput < 0 || counterValues.maxInput <= counterValues.minInput
+    const maxInputClasses = `${s.inputs}  ${counterValues.maxInput <= counterValues.minInput ? s.InputErr : ""}`
+    const minInputClasses = `${s.inputs} ${counterValues.minInput < 0 || counterValues.minInput >= counterValues.maxInput ? s.InputErr : ""}`
 
-    const enterMessage = enterValueMessage && "enter values and press 'set'"
+
+    const showMessage = counterValues.showMessage && "enter values and press 'set'"
     const errorMessage = error && "Incorrect value!"
 
-    const countValueVariants = errorMessage ? errorMessage : enterMessage ? enterMessage : startValue
+    const countValueVariants = errorMessage ? errorMessage : showMessage ? showMessage : counterValues.startValue
 
-    const maxInputClasses = `${s.inputs} ${s.minInput} ${maxInput <= minInput ? s.InputErr : ""}`
-    const minInputClasses = `${s.inputs} ${minInput < 0 || minInput === maxInput ? s.InputErr : ""}`
-    const countClasses = `${startValue >= maxValue ? s.settingsOnChangeMessage : ""} ${errorMessage ? s.errorMessage : ""}`
-    const countValueClasses = `${!errorMessage && !enterMessage ? s.countValue : ""}`
+
+
+    const countClasses = `${counterValues.startValue >= counterValues.maxValue ? s.settingsOnChangeMessage : ""} ${errorMessage ? s.errorMessage : ""}`
+    const countValueClasses = `${!errorMessage && !showMessage ? s.countValue : ""}`
 
 
 
 
     const setMinMaxValue = () => {
-        setStartValue(minInput)
-        setMaxValue(maxInput)
-        setOnChangeBtnDisable(false)
-        setEnterValueMessage(false)
+        dispatch(changeStartValueAC())
+        dispatch(changeMaxValueAC())
+        dispatch(disableButtonAC(false))
+        dispatch(showMessageAC(false))
     }
 
     const increment = () => {
@@ -122,7 +129,7 @@ export const Counter = () => {
                     <div className={s.maxInput}>
                         <span className={s.inputValue}>Max value:</span>
                         <input
-                            value={maxInput}
+                            value={counterValues.maxInput}
                             onChange={changeMaxInput}
                             className={maxInputClasses}
                             type={"number"}/>
@@ -130,7 +137,7 @@ export const Counter = () => {
                     <div className={s.minInput}>
                         <span className={s.inputValue}>Min value: </span>
                         <input
-                            value={minInput}
+                            value={counterValues.minInput}
                             onChange={changeMinInput}
                             className={minInputClasses}
                             type={"number"}/>
@@ -157,11 +164,11 @@ export const Counter = () => {
                     <div className={s.buttons}>
                         <div className={s.incButton}>
                             <SuperButton callback={increment}
-                                         disabled={startValue >= maxValue || counterValues.buttonDisable}>inc</SuperButton>
+                                         disabled={counterValues.startValue >= counterValues.maxValue  || counterValues.buttonDisable}>inc</SuperButton>
                         </div>
                         <div className={s.resetButton}>
                             <SuperButton callback={reset}
-                                         disabled={startValue === StartCounterValue || counterValues.buttonDisable}>reset</SuperButton>
+                                         disabled={counterValues.startValue === 0 || counterValues.buttonDisable}>reset</SuperButton>
                         </div>
                     </div>
                 </div>
