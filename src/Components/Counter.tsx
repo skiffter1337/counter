@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import s from "./Counter.module.css"
 import {SuperButton} from "./SuperButton/SuperButton";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,7 +8,7 @@ import {
     changeMinInputAC, changeStartValueAC,
     disableButtonAC,
     incrementAC,
-    resetAC, showMessageAC,
+    resetAC, showErrorAC, showMessageAC,
     StateType
 } from "../Redux/reducers/counterReducer";
 
@@ -19,8 +19,6 @@ import {
 
 export const Counter = () => {
 
-    const dispatch = useDispatch()
-    const counterValues = useSelector<AppStoreType, StateType>((state) => state.counter)
 
     // const [startValue, setStartValue] = useState(StartCounterValue)
     // const [minValue, setMinValue] = useState(MinCounterValue)
@@ -29,7 +27,7 @@ export const Counter = () => {
     // const [minInput, setMinInput] = useState(minValue)
     // const [maxInput, setMaxInput] = useState(maxValue)
     //
-    const [error, setError] = useState(false)
+    // const [error, setError] = useState(false)
     //
     // const [onChangeBtnDisable, setOnChangeBtnDisable] = useState(false)
     // const [enterValueMessage, setEnterValueMessage] = useState(false)
@@ -37,6 +35,7 @@ export const Counter = () => {
     // old state
 
 
+// local storage
 
     // useEffect(() => {
     //     let valueAsString = localStorage.getItem("counterValue")
@@ -64,6 +63,8 @@ export const Counter = () => {
     // useEffect(() => localStorage.setItem("maxInputValue", JSON.stringify(maxInput)), [maxInput])
     // localstorage
 
+    const dispatch = useDispatch()
+    const counterValues = useSelector<AppStoreType, StateType>((state) => state.counter)
 
     useEffect(() => {
         if (inputsOnchangeParameters) {
@@ -75,7 +76,13 @@ export const Counter = () => {
         }
     }, [counterValues.minInput, counterValues.maxInput])
 
-    useEffect(() => inputsDisableConditions ? setError(true) : setError(false), [counterValues.minInput, counterValues.maxInput])
+    useEffect(() => {
+        if (inputsDisableConditions) {
+            dispatch(showErrorAC(true))
+        } else {
+            dispatch(showErrorAC(false))
+        }
+    }, [counterValues.minInput, counterValues.maxInput])
 
     const inputsOnchangeParameters = counterValues.minInput !== counterValues.minValue || counterValues.maxInput !== counterValues.maxValue;
     const inputsDisableConditions = counterValues.minInput < 0 || counterValues.maxInput <= counterValues.minInput
@@ -84,16 +91,13 @@ export const Counter = () => {
 
 
     const showMessage = counterValues.showMessage && "enter values and press 'set'"
-    const errorMessage = error && "Incorrect value!"
+    const errorMessage = counterValues.error && "Incorrect value!"
 
     const countValueVariants = errorMessage ? errorMessage : showMessage ? showMessage : counterValues.startValue
 
 
-
     const countClasses = `${counterValues.startValue >= counterValues.maxValue ? s.settingsOnChangeMessage : ""} ${errorMessage ? s.errorMessage : ""}`
     const countValueClasses = `${!errorMessage && !showMessage ? s.countValue : ""}`
-
-
 
 
     const setMinMaxValue = () => {
@@ -105,11 +109,9 @@ export const Counter = () => {
 
     const increment = () => {
         dispatch(incrementAC())
-        // setStartValue(startValue + 1)
     }
-     const reset = () => {
+    const reset = () => {
         dispatch(resetAC())
-         // setStartValue(minInput)
     }
 
     const changeMaxInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -164,7 +166,7 @@ export const Counter = () => {
                     <div className={s.buttons}>
                         <div className={s.incButton}>
                             <SuperButton callback={increment}
-                                         disabled={counterValues.startValue >= counterValues.maxValue  || counterValues.buttonDisable}>inc</SuperButton>
+                                         disabled={counterValues.startValue >= counterValues.maxValue || counterValues.buttonDisable}>inc</SuperButton>
                         </div>
                         <div className={s.resetButton}>
                             <SuperButton callback={reset}
